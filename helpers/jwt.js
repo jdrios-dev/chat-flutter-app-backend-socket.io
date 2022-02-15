@@ -15,9 +15,22 @@ const generateJWT = (uid) => {
       }
     });
   });
+}
 
+const checkJWT = (token = '') => {
+  if (!token || token === '') {
+    return [false, null]
+  }
+  try {
+    const { uid } = jwt?.verify(token, process.env.JWT_KEY);
+    return [true, uid];
+  } catch (error) {
+    console.log(error);
+    return [false, null]
+  }
 }
 
 module.exports = {
-  generateJWT
+  generateJWT,
+  checkJWT
 }
